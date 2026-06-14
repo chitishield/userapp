@@ -1,7 +1,7 @@
 // lib/auth.ts
 
 import Cookies from 'js-cookie'
-import { jwtDecode } from 'jose'
+import { decodeJwt } from 'jose'
 import type { TokenPayload, UserRole } from '@/types'
 
 export function getAccessToken(): string | undefined {
@@ -20,7 +20,7 @@ export function clearTokens() {
 
 export function decodeToken(token: string): TokenPayload | null {
   try {
-    return JSON.parse(atob(token.split('.')[1])) as TokenPayload
+    return decodeJwt(token) as TokenPayload
   } catch {
     return null
   }

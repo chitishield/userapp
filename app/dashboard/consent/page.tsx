@@ -148,21 +148,36 @@ export default function ConsentPage() {
                           {record.status === 'expired'   && <Badge variant="gray">● Expired</Badge>}
                         </td>
                         <td>
-                          {record.status === 'active' ? (
-                            <button
-                              className="btn btn-ghost btn-sm"
-                              style={{ color: 'var(--red)' }}
-                              onClick={() => withdraw(record.id)}>
-                              Withdraw
-                            </button>
-                          ) : record.status === 'active' && expiry.warn ? (
-                            <button className="btn btn-secondary btn-sm">Re-ask</button>
-                          ) : (
-                            <span className="text-[12px]" style={{ color: 'var(--slate-lt)' }}>
-                              {record.withdrawn_at ? formatDate(record.withdrawn_at) : '—'}
-                            </span>
-                          )}
-                        </td>
+  {record.status === 'active' ? (
+    <div className="flex items-center gap-2">
+      <button
+        className="btn btn-ghost btn-sm"
+        style={{ color: 'var(--red)' }}
+        onClick={() => withdraw(record.id)}
+      >
+        Withdraw
+      </button>
+
+      {expiry.warn && (
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => toast.success('Re-consent request sent')}
+        >
+          Re-ask
+        </button>
+      )}
+    </div>
+  ) : (
+    <span
+      className="text-[12px]"
+      style={{ color: 'var(--slate-lt)' }}
+    >
+      {record.withdrawn_at
+        ? formatDate(record.withdrawn_at)
+        : '—'}
+    </span>
+  )}
+</td>
                       </tr>
                     )
                   })}
